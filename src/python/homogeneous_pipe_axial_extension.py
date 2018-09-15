@@ -32,6 +32,7 @@ pressureBasisUserNumber = 2
 meshUserNumber = 1
 cellMLUserNumber = 1
 decompositionUserNumber = 1
+decomposerUserNumber = 1
 equationsSetUserNumber = 1
 problemUserNumber = 1
 #Mesh component numbers
@@ -67,8 +68,11 @@ iron.Context.RandomSeedsSet(randomSeeds)
 # Get the number of computational nodes and this computational node number
 computationEnvironment = iron.ComputationEnvironment()
 iron.Context.ComputationEnvironmentGet(computationEnvironment)
-numberOfComputationalNodes = computationEnvironment.NumberOfWorldNodesGet()
-computationalNodeNumber = computationEnvironment.WorldNodeNumberGet()
+
+worldWorkGroup = iron.WorkGroup()
+computationEnvironment.WorldWorkGroupGet(worldWorkGroup)
+numberOfComputationalNodes = worldWorkGroup.NumberOfGroupNodesGet()
+computationalNodeNumber = worldWorkGroup.GroupNodeNumberGet()
 
 if computationalNodeNumber == 0:
     if not os.path.exists("./results"):
@@ -140,9 +144,13 @@ mesh.CreateFinish()
 # Create a decomposition for the mesh
 decomposition = iron.Decomposition()
 decomposition.CreateStart(decompositionUserNumber,mesh)
-decomposition.TypeSet(iron.DecompositionTypes.CALCULATED)
-decomposition.NumberOfDomainsSet(numberOfComputationalNodes)
 decomposition.CreateFinish()
+
+# Decompose 
+decomposer = iron.Decomposer()
+decomposer.CreateStart(decomposerUserNumber,worldRegion,worldWorkGroup)
+decompositionIndex = decomposer.DecompositionAdd(decomposition)
+decomposer.CreateFinish()
 
 # Create a field for the geometry
 geometricField = iron.Field()
