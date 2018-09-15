@@ -159,7 +159,7 @@ for index in range(len(elements)):
             activeNodes[inode] = node
             element_template.setNode(i + 1, node)
     except:
-        print elem
+        print(elem)
     mesh.defineElement(-1, element_template)
 
 offset = xirref*xihref*xitref + 100;
