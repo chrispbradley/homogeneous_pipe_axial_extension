@@ -285,8 +285,7 @@ class ExnodeSection(object):
         line = f.readline().strip()
         if line == "":
             raise EOFError
-        number = int(read_string_regex(f, line,
-                r'Node:\s*([0-9]+)'))
+        number = int(read_string_regex(f, line, r'Node:\s*([0-9]+)'))
         read = 0
         values = np.empty(self.num_node_values)
         while read < self.num_node_values:
@@ -295,10 +294,10 @@ class ExnodeSection(object):
                 new_values = map(float, line.split())
             except ValueError:
                 raise ExfileError(f, "Expecting node values, got: %s" % line.strip())
-            if read + len(new_values) > self.num_node_values:
+            if int(read + int(len(list(new_values)))) > self.num_node_values:
                 raise ExfileError(f, "Got more node values than expected.")
-            values[read:read + len(new_values)] = new_values
-            read += len(new_values)
+            values[read:read + int(len(list(new_values)))] = new_values
+            read += int(len(list(new_values)))
 
         self.nodes.append(ExnodeNode(number, values))
 
