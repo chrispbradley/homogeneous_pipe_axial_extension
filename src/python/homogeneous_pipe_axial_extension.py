@@ -427,7 +427,7 @@ problem.CreateFinish()
 problem.ControlLoopCreateStart()
 ControlLoop = iron.ControlLoop()
 problem.ControlLoopGet([iron.ControlLoopIdentifiers.NODE],ControlLoop)
-ControlLoop.TypeSet(iron.ProblemControlLoopTypes.SIMPLE)
+ControlLoop.TypeSet(iron.ControlLoopTypes.SIMPLE)
 problem.ControlLoopCreateFinish()
 
 #Create the problem solvers
