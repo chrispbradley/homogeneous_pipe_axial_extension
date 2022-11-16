@@ -25,6 +25,7 @@ usePressureBasis = True
 numberOfGaussXi = 3
 
 #Setup field number handles
+contextUserNumber = 1
 coordinateSystemUserNumber = 1
 regionUserNumber = 1
 basisUserNumber = 1
@@ -55,19 +56,22 @@ if(usePressureBasis):
 else:
     numberOfMeshComponents = 1
     
+context = iron.Context()
+context.Create(contextUserNumber)
+
 worldRegion = iron.Region()
-iron.Context.WorldRegionGet(worldRegion)
+context.WorldRegionGet(worldRegion)
 
 # Set the OpenCMISS random seed so that we can test this example by using the
 # same parallel decomposition
-numberOfRandomSeeds = iron.Context.RandomSeedsSizeGet()
+numberOfRandomSeeds = context.RandomSeedsSizeGet()
 randomSeeds = [0]*numberOfRandomSeeds
 randomSeeds[0] = 100
-iron.Context.RandomSeedsSet(randomSeeds)
+context.RandomSeedsSet(randomSeeds)
 
 # Get the number of computational nodes and this computational node number
 computationEnvironment = iron.ComputationEnvironment()
-iron.Context.ComputationEnvironmentGet(computationEnvironment)
+context.ComputationEnvironmentGet(computationEnvironment)
 
 worldWorkGroup = iron.WorkGroup()
 computationEnvironment.WorldWorkGroupGet(worldWorkGroup)
@@ -80,7 +84,7 @@ if computationalNodeNumber == 0:
     
 # Create a 3D rectangular cartesian coordinate system
 coordinateSystem = iron.CoordinateSystem()
-coordinateSystem.CreateStart(coordinateSystemUserNumber,iron.Context)
+coordinateSystem.CreateStart(coordinateSystemUserNumber,context)
 coordinateSystem.DimensionSet(3)
 coordinateSystem.CreateFinish()
 
@@ -93,7 +97,7 @@ region.CreateFinish()
 
 # Define basis
 basis = iron.Basis()
-basis.CreateStart(basisUserNumber,iron.Context)
+basis.CreateStart(basisUserNumber,context)
 basis.TypeSet(iron.BasisTypes.LAGRANGE_HERMITE_TP)
 basis.NumberOfXiSet(numberOfXi)
 basis.InterpolationXiSet([iron.BasisInterpolationSpecifications.QUADRATIC_LAGRANGE]*numberOfXi)
@@ -104,7 +108,7 @@ basis.CreateFinish()
 if(usePressureBasis):
     # Define pressure basis
     pressureBasis = iron.Basis()
-    pressureBasis.CreateStart(pressureBasisUserNumber,iron.Context)
+    pressureBasis.CreateStart(pressureBasisUserNumber,context)
     pressureBasis.TypeSet(iron.BasisTypes.LAGRANGE_HERMITE_TP)
     pressureBasis.NumberOfXiSet(numberOfXi)
     pressureBasis.InterpolationXiSet([iron.BasisInterpolationSpecifications.LINEAR_LAGRANGE]*numberOfXi)
@@ -419,7 +423,7 @@ problem = iron.Problem()
 problemSpecification = [iron.ProblemClasses.ELASTICITY,
     iron.ProblemTypes.FINITE_ELASTICITY,
     iron.ProblemSubtypes.FINITE_ELASTICITY_WITH_CELLML]
-problem.CreateStart(problemUserNumber,iron.Context,problemSpecification)
+problem.CreateStart(problemUserNumber,context,problemSpecification)
 problem.CreateFinish()
 #DOC-END define CellML finite elasticity problem
 
