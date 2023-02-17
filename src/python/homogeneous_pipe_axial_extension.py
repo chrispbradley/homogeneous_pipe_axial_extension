@@ -48,6 +48,8 @@ cellMLParametersFieldUserNumber = 5
 cellMLIntermediateFieldUserNumber = 6
 equationsSetFieldUserNumber = 7
 
+quit()
+
 # Set all diganostic levels on for testing
 #iron.DiagnosticsSetOn(iron.DiagnosticTypes.ALL,[1,2,3,4,5],"Diagnostics",["DOMAIN_MAPPINGS_LOCAL_FROM_GLOBAL_CALCULATE"])
 
