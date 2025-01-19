@@ -176,7 +176,7 @@ right_boundary_nodes = []
 # DOC-START define node coordinates
 # Read the geometric field 
 for nodeNumber in exregion.nodeids:
-    nodeDomain = decomposition.NodeDomainGet(nodeNumber,1)
+    nodeDomain = decomposition.NodeDomainGet(1,nodeNumber)
     if(nodeDomain == computationalNodeNumber):
         version = 1
         derivative = 1
@@ -322,19 +322,19 @@ mooneyRivlinModel = cellML.ModelImport("mooney_rivlin.xml")
 
 #DOC-START flag variables
 # Now we have imported the model we are able to specify which variables from the model we want to set from openCMISS
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E11")
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E12")
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E13")
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E22")
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E23")
-cellML.VariableSetAsKnown(mooneyRivlinModel, "equations/E33")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E11")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E12")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E13")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E22")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E23")
+cellML.VariableSetAsKnown(mooneyRivlinModel, "main/E33")
 # and variables to get from the CellML 
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev11")
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev12")
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev13")
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev22")
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev23")
-cellML.VariableSetAsWanted(mooneyRivlinModel, "equations/Tdev33")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev11")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev12")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev13")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev22")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev23")
+cellML.VariableSetAsWanted(mooneyRivlinModel, "main/Tdev33")
 #DOC-END flag variables
 
 #DOC-START create cellml finish
@@ -347,22 +347,22 @@ cellML.FieldMapsCreateStart()
 #Now we can set up the field variable component <--> CellML model variable mappings.
 #DOC-START map strain components
 #Map the strain components
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,1, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E11", oc.FieldParameterSetTypes.VALUES)
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,2, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E12", oc.FieldParameterSetTypes.VALUES)
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,3, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E13", oc.FieldParameterSetTypes.VALUES)
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,4, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E22", oc.FieldParameterSetTypes.VALUES)
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,5, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E23", oc.FieldParameterSetTypes.VALUES)
-cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,6, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"equations/E33", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,1, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E11", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,2, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E12", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,3, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E13", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,4, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E22", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,5, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E23", oc.FieldParameterSetTypes.VALUES)
+cellML.CreateFieldToCellMLMap(dependentField,oc.FieldVariableTypes.U1,6, oc.FieldParameterSetTypes.VALUES,mooneyRivlinModel,"main/E33", oc.FieldParameterSetTypes.VALUES)
 #DOC-END map strain components
     
 #DOC-START map stress components
 #Map the stress components
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev11", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,1,oc.FieldParameterSetTypes.VALUES)
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev12", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,2,oc.FieldParameterSetTypes.VALUES)
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev13", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,3,oc.FieldParameterSetTypes.VALUES)
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev22", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,4,oc.FieldParameterSetTypes.VALUES)
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev23", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,5,oc.FieldParameterSetTypes.VALUES)
-cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"equations/Tdev33", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,6,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev11", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,1,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev12", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,2,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev13", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,3,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev22", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,4,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev23", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,5,oc.FieldParameterSetTypes.VALUES)
+cellML.CreateCellMLToFieldMap(mooneyRivlinModel,"main/Tdev33", oc.FieldParameterSetTypes.VALUES,dependentField,oc.FieldVariableTypes.U2,6,oc.FieldParameterSetTypes.VALUES)
 #DOC-END map stress components
 
 #Finish the creation of cellML <--> OpenCMISS field maps
@@ -442,7 +442,7 @@ linearSolver = oc.Solver()
 problem.SolversCreateStart()
 problem.SolverGet([oc.ControlLoopIdentifiers.NODE],1,nonLinearSolver)
 nonLinearSolver.OutputTypeSet(oc.SolverOutputTypes.MONITOR)
-nonLinearSolver.NewtonJacobianCalculationTypeSet(oc.JacobianCalculationTypes.FD)
+nonLinearSolver.NewtonJacobianCalculationTypeSet(oc.JacobianCalculationTypes.EQUATIONS)
 nonLinearSolver.NewtonLinearSolverGet(linearSolver)
 #Use the DIRECT MUMPS solver
 linearSolver.LinearTypeSet(oc.LinearSolverTypes.DIRECT)
@@ -481,14 +481,14 @@ solverEquations.BoundaryConditionsCreateStart(boundaryConditions)
 
 #Here we model axial stretch, by pulling along the axis at both the ends of the cylinder and holding them (Direchlet)
 for nodeNumber in left_boundary_nodes:
-    nodeDomain = decomposition.NodeDomainGet(nodeNumber, 1)
+    nodeDomain = decomposition.NodeDomainGet(1,nodeNumber)
     if nodeDomain == computationalNodeNumber :
         boundaryConditions.AddNode(dependentField, oc.FieldVariableTypes.U, 1, 1, nodeNumber, 1, oc.BoundaryConditionsTypes.FIXED, 0.0)
         boundaryConditions.AddNode(dependentField, oc.FieldVariableTypes.U, 1, 1, nodeNumber, 2, oc.BoundaryConditionsTypes.FIXED, 0.0)
         boundaryConditions.AddNode(dependentField, oc.FieldVariableTypes.U, 1, 1, nodeNumber, 3, oc.BoundaryConditionsTypes.FIXED, -1.0)
 
 for nodeNumber in right_boundary_nodes:
-    nodeDomain = decomposition.NodeDomainGet(nodeNumber, 1)
+    nodeDomain = decomposition.NodeDomainGet(1,nodeNumber)
     if nodeDomain == computationalNodeNumber :
         boundaryConditions.AddNode(dependentField, oc.FieldVariableTypes.U, 1, 1, nodeNumber, 1, oc.BoundaryConditionsTypes.FIXED, 0.0)
         boundaryConditions.AddNode(dependentField, oc.FieldVariableTypes.U, 1, 1, nodeNumber, 2, oc.BoundaryConditionsTypes.FIXED, 0.0)
